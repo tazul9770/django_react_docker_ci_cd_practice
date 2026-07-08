@@ -1,17 +1,14 @@
-name: Continuous Delivery (CD)
-
+name: Continuous Delivery(CD)
 on:
   workflow_run:
     workflows:
-      - Continuous Integration (CI)
+      - Continuous Integration(CI)
     types:
       - completed
 
 jobs:
   docker-practice:
-
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
+    if: ${{ github.event.workflow_run.conclusion == 'success'}}
     runs-on: ubuntu-latest
 
     steps:

@@ -1,10 +1,8 @@
-name: Continuous Integration (CI)
-
+name: Continuous Integration(CI)
 on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
@@ -12,16 +10,13 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout Repository
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-
-      # Django
+      #Django
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses:actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -36,16 +31,16 @@ jobs:
         run: |
           python manage.py test
 
-      # React
+      #React
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-
+      
       - name: Install React Dependencies
         working-directory: ./react_docker_practice
         run: |
-          npm install
+            npm install
 
       - name: Build React Project
         working-directory: ./react_docker_practice
