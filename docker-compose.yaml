@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./practice_django
+      dockerfile: Dockerfile
+    container_name: django_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./practice_django:/app
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./react_docker_practice
+      dockerfile: Dockerfile
+    container_name: react_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./react_docker_practice:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
