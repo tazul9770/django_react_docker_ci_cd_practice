@@ -1,0 +1,43 @@
+name: Continuous Delivery (CD)
+
+on:
+  workflow_run:
+    workflows:
+      - Continuous Integration (CI)
+    types:
+      - completed
+
+jobs:
+
+  docker-compose-demo:
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Show Docker Version
+        run: docker --version
+
+      - name: Show Docker Compose Version
+        run: docker compose version
+
+      - name: Build Docker Images
+        run: docker compose build
+
+      - name: Start Containers
+        run: docker compose up -d
+
+      - name: Show Running Containers
+        run: docker ps
+
+      - name: Show Container Logs
+        run: docker compose logs
+
+      - name: Stop Containers
+        if: always()
+        run: docker compose down
