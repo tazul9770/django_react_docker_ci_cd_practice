@@ -11,13 +11,13 @@ on:
 
 jobs:
   test-and-build:
-
     runs-on: ubuntu-latest
 
     steps:
-
+      # Checkout Repository
       - name: Checkout Repository
         uses: actions/checkout@v4
+
 
       # Django
       - name: Setup Python
@@ -26,12 +26,13 @@ jobs:
           python-version: "3.12"
 
       - name: Install Django Dependencies
-        working-directory: django_practice
+        working-directory: ./practice_django
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run Django Tests
-        working-directory: django_practice
+        working-directory: ./practice_django
         run: |
           python manage.py test
 
@@ -39,12 +40,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "22"
 
-      - name: Install React Packages
-        working-directory: react_docker_practice
-        run: npm install
+      - name: Install React Dependencies
+        working-directory: ./react_docker_practice
+        run: |
+          npm install
 
-      - name: Build React
-        working-directory: react_docker_practice
-        run: npm run build
+      - name: Build React Project
+        working-directory: ./react_docker_practice
+        run: |
+          npm run build
