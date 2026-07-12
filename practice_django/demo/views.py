@@ -12,3 +12,11 @@ def user_dashboard(request):
 
 def admin_dashboard(request):
     return render(request, 'inheritance/admin_dashboard.html')
+
+def context_test(request):
+    context = {
+        "name":"Tazul Islam",
+        "age": "25",
+        "sex":"male"
+    }
+    return render(request, 'context.html', context)

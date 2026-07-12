@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "dev": "postcss static/src/input.css -o static/css/output.css --watch",
+    "build": "postcss static/src/input.css -o static/css/output.css --minify"
+  },
+  "devDependencies": {
+    "postcss-cli": "^11.0.1"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.2",
+    "postcss": "^8.5.17",
+    "tailwindcss": "^4.3.2"
+  }
+}

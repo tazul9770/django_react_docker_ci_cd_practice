@@ -1,11 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 <body>
-    <button>Submit button</button>
+    <button class="lal">Submit button</button>
+    <p class="bg-gray-500 border p-3 ">OK done</p>
+    <img class="w-100 h-100" src="{% static 'image/flower.jpg' %}" alt="">
 </body>
 </html>
