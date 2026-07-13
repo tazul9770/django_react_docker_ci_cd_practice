@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Details</title>
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-8 text-blue-600">🎓 Student Results Dashboard</h1>
+
+    <!-- All Students -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4 text-gray-700">All Students Results</h2>
+      <ul class="space-y-2">
+        {% for s in students %}
+          <li class="p-3 bg-gray-50 rounded-md hover:bg-blue-50">
+            <span class="font-medium">{{ s.name }}</span> 
+            <span class="text-sm text-gray-600">- GPA: {{ s.results.gpa }} - Passed: {{ s.results.passed }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- High GPA -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4 text-green-600">High GPA Students (≥ 3.5)</h2>
+      <ul class="space-y-2">
+        {% for s in high_gpa_students %}
+          <li class="p-3 bg-green-50 rounded-md hover:bg-green-100">
+            {{ s.name }} - GPA: <span class="font-bold">{{ s.results.gpa }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Low GPA -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4 text-red-600">Low GPA Students (&lt; 3.5)</h2>
+      <ul class="space-y-2">
+        {% for s in low_gpa_students %}
+          <li class="p-3 bg-red-50 rounded-md hover:bg-red-100">
+            {{ s.name }} - GPA: <span class="font-bold">{{ s.results.gpa }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Passed Students -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4 text-blue-600">Passed Students</h2>
+      <ul class="space-y-2">
+        {% for s in passed_students %}
+          <li class="p-3 bg-blue-50 rounded-md hover:bg-blue-100">
+            {{ s.name }} - GPA: {{ s.results.gpa }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Statistics -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4 text-purple-600">Statistics</h2>
+      <div class="grid grid-cols-3 gap-4 text-center">
+        <div class="bg-purple-50 p-4 rounded-md">
+          <p class="text-lg font-bold">{{ stats.avg_gpa }}</p>
+          <p class="text-sm text-gray-600">Average GPA</p>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-md">
+          <p class="text-lg font-bold">{{ stats.max_gpa }}</p>
+          <p class="text-sm text-gray-600">Max GPA</p>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-md">
+          <p class="text-lg font-bold">{{ stats.min_gpa }}</p>
+          <p class="text-sm text-gray-600">Min GPA</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Good Students -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4 text-indigo-600">Good Students (Passed + GPA ≥ 3.0)</h2>
+      <ul class="space-y-2">
+        {% for s in good_students %}
+          <li class="p-3 bg-indigo-50 rounded-md hover:bg-indigo-100">
+            {{ s.name }} - GPA: {{ s.results.gpa }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>
