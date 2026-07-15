@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Product</title>
+</head>
+<body>
+    <h2>All Product List</h2>
+    <ul>
+        {% for p in product %}
+            <li>{{p.name}} - {{p.price}} - {{p.category.name}}</li>
+        {% endfor %}
+    </ul>
+    <h2>Use category show product</h2>
+    <ul>
+        {% for c in category %}
+            <h5>-{{c.name}}</h5>
+            {% for p in c.products.all %}
+                <li>{{p.name}} - {{p.price}} - {{p.description}}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    <h2>Cheap Product List</h2>
+    <ul>
+        {% for p in cheap_products %}
+            <li>{{p.name}} - {{p.price}} - {{p.category.name}}</li>
+        {% endfor %}
+    </ul>
+    <h2>Product Stats</h2>
+    <p>Average Price: {{ product_stats.avg_price }}</p>
+    <p>Max Price: {{ product_stats.max_price }}</p>
+    <p>Min Price: {{ product_stats.min_price }}</p>
+    <p>Total Products: {{ product_stats.total_products }}</p>
+    <h2>Search Results</h2>
+    <ul>
+        {% for product in search_products %}
+            <li>{{ product.name }} - {{ product.price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
