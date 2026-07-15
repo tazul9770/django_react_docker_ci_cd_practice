@@ -64,4 +64,5 @@ def product_view_list(request):
         "product_stats":product_stats,
         "search_products":search_products
     }
+    
     return render(request, 'product/product.html', context)
