@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from demo.models import Student, Results, Category, Product
+from demo.models import Student, Results, Category, Product, Students, Course
 from django.db.models import Avg, Max, Min, Count, Q
 
 def test(request):
@@ -66,3 +66,22 @@ def product_view_list(request):
     }
     
     return render(request, 'product/product.html', context)
+
+def student_course_view(request):
+    students = Students.objects.prefetch_related('courses').all()
+    stu_courses = Students.objects.get(name="Jamil").courses.all()
+    course_students = Course.objects.get(title="Data Science").student.all()
+    course_student_count = Course.objects.annotate(total_students=Count("student"))
+    multi_course_students = Students.objects.annotate(num_courses=Count("courses")).filter(num_courses__gt=1)
+    search_courses = Course.objects.filter(
+        Q(title__icontains="Data") | Q(student__name__icontains="Jamil")
+    ).distinct()
+    context = {
+        "students":students,
+        "stu_courses":stu_courses,
+        "course_students":course_students,
+        "course_student_count":course_student_count,
+        "multi_course_students":multi_course_students,
+        "search_courses":search_courses
+    }
+    return render(request, 'stu_course.html', context)

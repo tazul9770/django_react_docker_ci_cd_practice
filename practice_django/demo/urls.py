@@ -1,5 +1,5 @@
 from django.urls import path
-from demo.views import test, check_template, user_dashboard, admin_dashboard, context_test, student_results_view, product_view_list
+from demo.views import test, check_template, user_dashboard, admin_dashboard, context_test, student_results_view, product_view_list, student_course_view
 
 urlpatterns = [
     path('test/', test),
@@ -8,5 +8,6 @@ urlpatterns = [
     path('user_dash/', user_dashboard),
     path('context/', context_test),
     path('student/', student_results_view),
-    path('product/', product_view_list)
+    path('product/', product_view_list),
+    path('stu_course/', student_course_view)
 ]

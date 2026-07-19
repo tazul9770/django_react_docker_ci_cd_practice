@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student and Course</title>
+</head>
+<body>
+    <h2>All Students and their courses</h2>
+    <ul>
+        {% for s in students %}
+            <li>-{{s.name}} -{{s.roll}} -{{s.address}}</li>
+            {% for c in s.courses.all %}
+                <p>{{c.title}} - {{c.price}} -{{c.details}}</p>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    <h2>Courses taken by Jamil</h2>
+    <ul>
+        {% for course in stu_courses %}
+            <li>{{ course.title }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Students in Data Science</h2>
+    <ul>
+        {% for student in course_students %}
+            <li>{{ student.name }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Course Student Count</h2>
+    <ul>
+        {% for course in course_student_count %}
+            <li>{{ course.title }} - {{ course.total_students }} students</li>
+        {% endfor %}
+    </ul>
+    <h2>Students enrolled in multiple courses</h2>
+    <ul>
+        {% for student in multi_course_students %}
+            <li>{{ student.name }} ({{ student.num_courses }} courses)</li>
+        {% endfor %}
+    </ul>
+    <h2>Search Results (Data / Jamil)</h2>
+    <ul>
+        {% for course in search_courses %}
+            <li>{{ course.title }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

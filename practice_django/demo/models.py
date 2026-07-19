@@ -31,3 +31,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Students(models.Model):
+    name = models.CharField(max_length=100)
+    roll = models.IntegerField(unique=True)
+    address = models.CharField(max_length=150)
+
+    def __str__(self):
+        return f"{self.name} ({self.roll})"
+    
+class Course(models.Model):
+    title = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    details = models.TextField()
+    student = models.ManyToManyField(Students, related_name='courses')
+
+    def __str__(self):
+        return self.title
