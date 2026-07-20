@@ -6,11 +6,16 @@
     <title>Document</title>
 </head>
 <body>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <form method="POST">
-        <label for="">Name</label>
-        <input type="text">
-        <label for="">Number</label>
-        <input type="number">
+        {% csrf_token %}
+        {{form.as_p}}
         <button type="submit">Submit</button>
     </form>
 </body>
