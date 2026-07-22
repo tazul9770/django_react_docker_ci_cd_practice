@@ -9,5 +9,5 @@ urlpatterns = [
     path('context/', context_test),
     path('student/', student_results_view),
     path('product/', product_view_list),
-    path('stu_course/', student_course_view)
+    path('stu_course/', student_course_view, name='stu-course')
 ]

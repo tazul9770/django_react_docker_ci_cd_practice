@@ -69,7 +69,7 @@ def product_view_list(request):
 
 def student_course_view(request):
     students = Students.objects.prefetch_related('courses').all()
-    stu_courses = Students.objects.get(name="Jamil").courses.all()
+    # stu_courses = Students.objects.get(name="Jamil").courses.all()
     course_students = Course.objects.get(title="Data Science").student.all()
     course_student_count = Course.objects.annotate(total_students=Count("student"))
     multi_course_students = Students.objects.annotate(num_courses=Count("courses")).filter(num_courses__gt=1)
@@ -78,7 +78,7 @@ def student_course_view(request):
     ).distinct()
     context = {
         "students":students,
-        "stu_courses":stu_courses,
+        # "stu_courses":stu_courses,
         "course_students":course_students,
         "course_student_count":course_student_count,
         "multi_course_students":multi_course_students,

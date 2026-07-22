@@ -1,49 +1,140 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student and Course</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
-<body>
-    <h2>All Students and their courses</h2>
-    <ul>
-        {% for s in students %}
-            <li>-{{s.name}} -{{s.roll}} -{{s.address}}</li>
-            {% for c in s.courses.all %}
-                <p>{{c.title}} - {{c.price}} -{{c.details}}</p>
+<body class="bg-stone-100 text-stone-900 font-sans">
+
+    <header class="bg-emerald-900 text-stone-100 px-6 py-10 md:px-16">
+        <p class="font-mono text-xs tracking-[0.3em] uppercase text-amber-400 mb-2">Academic Records · Registry</p>
+        <h1 class="font-serif text-4xl md:text-5xl font-semibold">Student &amp; Course Ledger</h1>
+    </header>
+
+    <div class="max-w-5xl mx-auto px-6 md:px-0 py-12 space-y-16">
+
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
             {% endfor %}
-        {% endfor %}
-    </ul>
-    <h2>Courses taken by Jamil</h2>
-    <ul>
-        {% for course in stu_courses %}
-            <li>{{ course.title }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Students in Data Science</h2>
-    <ul>
-        {% for student in course_students %}
-            <li>{{ student.name }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Course Student Count</h2>
-    <ul>
-        {% for course in course_student_count %}
-            <li>{{ course.title }} - {{ course.total_students }} students</li>
-        {% endfor %}
-    </ul>
-    <h2>Students enrolled in multiple courses</h2>
-    <ul>
-        {% for student in multi_course_students %}
-            <li>{{ student.name }} ({{ student.num_courses }} courses)</li>
-        {% endfor %}
-    </ul>
-    <h2>Search Results (Data / Jamil)</h2>
-    <ul>
-        {% for course in search_courses %}
-            <li>{{ course.title }}</li>
-        {% endfor %}
-    </ul>
+        {% endif %}
+
+        <!-- All Students -->
+        <section>
+            <p class="font-mono text-xs tracking-[0.25em] uppercase text-amber-600 mb-1">01 — Enrollment</p>
+            <h2 class="font-serif text-2xl mb-6 pb-2 border-b border-stone-300">All Students and their Courses</h2>
+
+            <div class="grid gap-4 md:grid-cols-2">
+                {% for s in students %}
+                <div class="bg-white border border-stone-200 rounded-sm p-5 relative shadow-sm">
+                    <span class="absolute top-0 right-0 font-mono text-xs bg-emerald-900 text-stone-100 px-2 py-1 rounded-bl-sm">
+                        #{{ s.roll }}
+                    </span>
+                    <h3 class="font-serif text-lg font-semibold pr-16">{{ s.name }}</h3>
+                    <p class="text-sm text-stone-500 mb-3">{{ s.address }}</p>
+
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        {% for c in s.courses.all %}
+                        <span class="inline-flex items-baseline gap-1 bg-stone-100 border border-stone-200 rounded-full px-3 py-1 text-xs">
+                            <span>{{ c.title }}</span>
+                            <span class="font-mono text-amber-600">৳{{ c.price }}</span>
+                        </span>
+                        {% empty %}
+                        <span class="text-xs text-stone-400 italic">No courses enrolled</span>
+                        {% endfor %}
+                    </div>
+
+                    <a href="{% url 'update-student' s.id %}" class="font-mono text-xs uppercase tracking-wide border border-emerald-900 text-emerald-900 px-3 py-1.5 rounded-sm hover:bg-emerald-900 hover:text-stone-100 transition-colors">
+                        Edit
+                    </a>
+                    <form action="{% url 'delete-student' s.id %}" method="POST" class="inline">
+                        {% csrf_token %}
+                        <button
+                            type="submit"
+                            class="font-mono text-xs uppercase tracking-wide border border-emerald-900 text-emerald-900 px-3 py-1.5 rounded-sm hover:bg-emerald-900 hover:text-stone-100 transition-colors"
+                        >
+                            Delete
+                        </button>
+                    </form> 
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Courses taken by Jamil -->
+        <section>
+            <p class="font-mono text-xs tracking-[0.25em] uppercase text-amber-600 mb-1">02 — Individual Record</p>
+            <h2 class="font-serif text-2xl mb-6 pb-2 border-b border-stone-300">Courses taken by Jamil</h2>
+            <ul class="divide-y divide-stone-200">
+                {% for course in stu_courses %}
+                <li class="py-3 flex items-center gap-3">
+                    <span class="font-mono text-xs text-amber-600">{{ forloop.counter|stringformat:"02d" }}</span>
+                    <span>{{ course.title }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Students in Data Science -->
+        <section>
+            <p class="font-mono text-xs tracking-[0.25em] uppercase text-amber-600 mb-1">03 — Course Roster</p>
+            <h2 class="font-serif text-2xl mb-6 pb-2 border-b border-stone-300">Students in Data Science</h2>
+            <div class="flex flex-wrap gap-3">
+                {% for student in course_students %}
+                <div class="flex items-center gap-2 bg-white border border-stone-200 rounded-full pl-1 pr-4 py-1 shadow-sm">
+                    <span class="w-7 h-7 rounded-full bg-emerald-900 text-stone-100 font-mono text-xs flex items-center justify-center">
+                        {{ student.name|first|upper }}
+                    </span>
+                    <span class="text-sm">{{ student.name }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Course Student Count -->
+        <section>
+            <p class="font-mono text-xs tracking-[0.25em] uppercase text-amber-600 mb-1">04 — Statistics</p>
+            <h2 class="font-serif text-2xl mb-6 pb-2 border-b border-stone-300">Course Student Count</h2>
+            <ul class="space-y-2">
+                {% for course in course_student_count %}
+                <li class="flex items-baseline gap-2">
+                    <span>{{ course.title }}</span>
+                    <span class="flex-1 border-b border-dotted border-stone-300 translate-y-[-4px]"></span>
+                    <span class="font-mono text-sm text-emerald-900">{{ course.total_students }} students</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Multiple courses -->
+        <section>
+            <p class="font-mono text-xs tracking-[0.25em] uppercase text-amber-600 mb-1">05 — Cross-enrollment</p>
+            <h2 class="font-serif text-2xl mb-6 pb-2 border-b border-stone-300">Students Enrolled in Multiple Courses</h2>
+            <ul class="space-y-2">
+                {% for student in multi_course_students %}
+                <li class="flex items-baseline gap-2">
+                    <span>{{ student.name }}</span>
+                    <span class="flex-1 border-b border-dotted border-stone-300 translate-y-[-4px]"></span>
+                    <span class="font-mono text-sm text-amber-600">{{ student.num_courses }} courses</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Search Results -->
+        <section>
+            <p class="font-mono text-xs tracking-[0.25em] uppercase text-amber-600 mb-1">06 — Search</p>
+            <h2 class="font-serif text-2xl mb-6 pb-2 border-b border-stone-300">Search Results (Data / Jamil)</h2>
+            <ul class="divide-y divide-stone-200">
+                {% for course in search_courses %}
+                <li class="py-3">{{ course.title }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+    </div>
 </body>
 </html>
